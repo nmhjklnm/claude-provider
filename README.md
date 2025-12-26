@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nmhjklnm/cl-tool/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/nmhjklnm/claude-provider/main/install.sh | bash
 ```
 
 安装后执行：
