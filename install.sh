@@ -2,7 +2,7 @@
 # ============================================================================
 # cl - 安装脚本
 # ============================================================================
-# 用法: curl -fsSL https://raw.githubusercontent.com/nmhjklnm/cl-tool/main/install.sh | bash
+# 用法: curl -fsSL https://raw.githubusercontent.com/nmhjklnm/claude-provider/main/install.sh | bash
 # ============================================================================
 
 set -e
@@ -20,7 +20,7 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 
 # 安装目录
 INSTALL_DIR="$HOME/.claude/bin"
-REPO_URL="https://raw.githubusercontent.com/nmhjklnm/cl-tool/main"
+REPO_URL="https://raw.githubusercontent.com/nmhjklnm/claude-provider/main"
 
 # 创建目录
 echo -e "\n${YELLOW}[1/4]${NC} 创建安装目录..."
