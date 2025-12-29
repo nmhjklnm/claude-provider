@@ -22,6 +22,7 @@
 #     ├── switch.sh         # 切换命令
 #     ├── add.sh            # add 命令
 #     ├── remove.sh         # remove 命令
+#     ├── rename.sh         # rename 命令
 #     └── init.sh           # init/test 命令
 #   ~/.claude/providers.json # 供应商配置
 # ============================================================================
@@ -41,6 +42,7 @@ source "${CL_MODULES}/list.sh"
 source "${CL_MODULES}/switch.sh"
 source "${CL_MODULES}/add.sh"
 source "${CL_MODULES}/remove.sh"
+source "${CL_MODULES}/rename.sh"
 source "${CL_MODULES}/init.sh"
 
 # -----------------------------------------------------------------------------
@@ -70,6 +72,11 @@ case "${1:-}" in
     # 删除供应商
     "rm")
         remove_provider "$2"
+        ;;
+
+    # 重命名供应商
+    "rename"|"mv")
+        rename_provider "$2" "$3"
         ;;
 
     # 测试连接
