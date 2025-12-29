@@ -16,6 +16,7 @@ cl - Claude API 供应商切换工具
   cl add <name> <url> <key>  添加供应商
   cl rm <name>            删除供应商
   cl rename <old> <new>   重命名供应商
+  cl update               更新到最新版本
   cl init                 测试所有连接
   cl help                 显示帮助
 
@@ -25,6 +26,7 @@ cl - Claude API 供应商切换工具
   cl ls                   # 列出所有
   cl add qwen https://api.qwen.com sk-xxx
   cl rename yunwu cloud   # 重命名供应商
+  cl update               # 更新工具
 
 配置: ~/.claude/providers.json
 EOF

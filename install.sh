@@ -33,7 +33,7 @@ chmod +x "$INSTALL_DIR/_cl"
 
 # 下载模块
 echo -e "${YELLOW}[3/4]${NC} 下载模块..."
-modules=("_common.sh" "help.sh" "list.sh" "switch.sh" "add.sh" "remove.sh" "init.sh")
+modules=("_common.sh" "help.sh" "list.sh" "switch.sh" "add.sh" "remove.sh" "rename.sh" "update.sh" "init.sh")
 for mod in "${modules[@]}"; do
     curl -fsSL "$REPO_URL/cl.d/$mod" -o "$INSTALL_DIR/cl.d/$mod"
 done
