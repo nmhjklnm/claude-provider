@@ -27,14 +27,24 @@ _update_shell_config() {
         return 0
     fi
     
-    # 检查是否已存在 cl-provider 块
+    # 检查是否已存在 cl-provider 块（通过 BEGIN 标记）
     if grep -q "# BEGIN cl-provider" "$shell_rc" 2>/dev/null; then
-        # 替换现有块
+        # 删除旧块（从 BEGIN 到 END）
         local tmp_file="${shell_rc}.tmp.$$"
-        sed '/^# BEGIN cl-provider/,/^# END cl-provider$/d' "$shell_rc" > "$tmp_file"
+        sed '/^# BEGIN cl-provider/,/^# END cl-provider/d' "$shell_rc" > "$tmp_file"
+        echo "" >> "$tmp_file"
         echo "$new_func" >> "$tmp_file"
         mv "$tmp_file" "$shell_rc"
-        log_info "已更新 shell 配置文件"
+        log_info "已更新 shell 配置"
+    elif grep -q "_cl_load_env" "$shell_rc" 2>/dev/null; then
+        # 检测到旧版本（无标记），删除旧函数块，追加新的
+        local tmp_file="${shell_rc}.tmp.$$"
+        # 删除从 "# cl - Claude API Provider Switcher" 开始到 "_cl_load_env  # 启动时加载" 的所有行
+        sed '/^# cl - Claude API Provider Switcher$/,/^_cl_load_env  # 启动时加载$/d' "$shell_rc" > "$tmp_file"
+        echo "" >> "$tmp_file"
+        echo "$new_func" >> "$tmp_file"
+        mv "$tmp_file" "$shell_rc"
+        log_info "已升级 shell 配置（从旧版本）"
     fi
 }
 
