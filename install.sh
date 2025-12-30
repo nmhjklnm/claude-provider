@@ -62,7 +62,7 @@ _cl_load_env() {
     local url=$(jq -r ".providers[\"$default\"].url // empty" "$config" 2>/dev/null)
     local key=$(jq -r ".providers[\"$default\"].key // empty" "$config" 2>/dev/null)
     [[ -n "$url" ]] && export ANTHROPIC_BASE_URL="$url"
-    [[ -n "$key" ]] && export ANTHROPIC_API_KEY="$key"
+    [[ -n "$key" ]] && export ANTHROPIC_AUTH_TOKEN="$key"
 }
 cl() {
     "$HOME/.claude/bin/_cl" "$@"

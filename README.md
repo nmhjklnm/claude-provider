@@ -45,7 +45,7 @@ cl ls         # 列出所有供应商
 
 切换供应商时自动设置环境变量：
 - `ANTHROPIC_BASE_URL` - API 基础 URL
-- `ANTHROPIC_API_KEY` - API 密钥
+- `ANTHROPIC_AUTH_TOKEN` - API 密钥
 
 配置存储在 `~/.claude/providers.json`。
 
