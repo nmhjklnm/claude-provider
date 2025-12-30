@@ -52,10 +52,14 @@ SHELL_FUNC='
 _cl_load_env() {
     local config="$HOME/.claude/providers.json"
     [[ -f "$config" ]] || return 0
-    local current=$(grep -o "\"default\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$config" | cut -d\" -f4)
-    [[ -z "$current" ]] && return 0
-    local url=$(grep -A2 "\"$current\"" "$config" | grep "url" | cut -d\" -f4)
-    local key=$(grep -A3 "\"$current\"" "$config" | grep "key" | cut -d\" -f4)
+    # 使用 jq 可靠地读取 JSON 字段
+    if ! command -v jq &> /dev/null; then
+        return 0
+    fi
+    local default=$(jq -r ".default // empty" "$config" 2>/dev/null)
+    [[ -z "$default" ]] && return 0
+    local url=$(jq -r ".providers[\"$default\"].url // empty" "$config" 2>/dev/null)
+    local key=$(jq -r ".providers[\"$default\"].key // empty" "$config" 2>/dev/null)
     [[ -n "$url" ]] && export ANTHROPIC_BASE_URL="$url"
     [[ -n "$key" ]] && export ANTHROPIC_API_KEY="$key"
 }
