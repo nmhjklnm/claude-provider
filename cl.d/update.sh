@@ -6,6 +6,38 @@
 # 用法: cl update
 # ============================================================================
 
+# 更新 shell 配置文件中的 cl-provider 函数块
+_update_shell_config() {
+    local repo_url="https://raw.githubusercontent.com/nmhjklnm/claude-provider/main"
+    local install_sh
+    
+    # 下载最新的 install.sh 以获取新的 shell 函数
+    install_sh=$(curl -fsSL "$repo_url/install.sh" 2>/dev/null) || return 0
+    
+    # 从 install.sh 中提取新的 shell 函数块
+    local new_func=$(echo "$install_sh" | sed -n '/^SHELL_FUNC=/,/^'"'"'$/p' | sed '1d;$d' | sed "s/^'//" | sed "s/'$//" | sed 's/^//' )
+    
+    # 检测 shell 配置文件
+    local shell_rc=""
+    if [[ -f "$HOME/.zshrc" ]]; then
+        shell_rc="$HOME/.zshrc"
+    elif [[ -f "$HOME/.bashrc" ]]; then
+        shell_rc="$HOME/.bashrc"
+    else
+        return 0
+    fi
+    
+    # 检查是否已存在 cl-provider 块
+    if grep -q "# BEGIN cl-provider" "$shell_rc" 2>/dev/null; then
+        # 替换现有块
+        local tmp_file="${shell_rc}.tmp.$$"
+        sed '/^# BEGIN cl-provider/,/^# END cl-provider$/d' "$shell_rc" > "$tmp_file"
+        echo "$new_func" >> "$tmp_file"
+        mv "$tmp_file" "$shell_rc"
+        log_info "已更新 shell 配置文件"
+    fi
+}
+
 update_cl() {
     local install_dir="$HOME/.claude/bin"
     local repo_url="https://raw.githubusercontent.com/nmhjklnm/claude-provider/main"
@@ -79,6 +111,9 @@ update_cl() {
         fi
 
         log_info "已更新到: $(cat "${install_dir}/VERSION" 2>/dev/null || echo "unknown")"
+
+        # 更新 shell 配置文件中的函数
+        _update_shell_config
 
         # 清理旧备份（保留最近 3 个）
         local backup_count=$(ls -d "${install_dir}/.backup."* 2>/dev/null | wc -l)

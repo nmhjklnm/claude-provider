@@ -48,6 +48,7 @@ echo -e "${YELLOW}[4/4]${NC} 配置 shell..."
 
 # Shell 函数 (需要添加到 .zshrc 或 .bashrc)
 SHELL_FUNC='
+# BEGIN cl-provider
 # cl - Claude API Provider Switcher
 _cl_load_env() {
     local config="$HOME/.claude/providers.json"
@@ -72,6 +73,7 @@ cl() {
     return $ret
 }
 _cl_load_env  # 启动时加载
+# END cl-provider
 '
 
 # 检测 shell 配置文件
