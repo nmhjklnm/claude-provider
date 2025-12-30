@@ -62,7 +62,7 @@ _cl_load_env() {
 cl() {
     "$HOME/.claude/bin/_cl" "$@"
     local ret=$?
-    if [[ $ret -eq 0 && -n "$1" && "$1" != "help" && "$1" != "-h" && "$1" != "--help" && "$1" != "list" && "$1" != "ls" && "$1" != "init" && "$1" != "test" ]]; then
+        if [[ $ret -eq 0 && "$1" != "help" && "$1" != "-h" && "$1" != "--help" && "$1" != "list" && "$1" != "ls" && "$1" != "init" && "$1" != "test" ]]; then
         _cl_load_env
     fi
     return $ret
