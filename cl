@@ -66,6 +66,11 @@ case "${1:-}" in
         show_help
         ;;
 
+    # 版本
+    "version"|"--version"|"--ver"|"-v")
+        echo "$VERSION"
+        ;;
+
     # 列出供应商
     "list"|"ls")
         list_providers

@@ -18,6 +18,7 @@ cl - Claude API 供应商切换工具
   cl rename <old> <new>   重命名供应商
   cl update               更新到最新版本
   cl init                 测试所有连接
+  cl --version, -v        显示 cl 版本
   cl help                 显示帮助
 
 示例:
