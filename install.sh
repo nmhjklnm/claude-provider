@@ -47,7 +47,7 @@ SHELL_FUNC='
 _cl_load_env() {
     local config="$HOME/.claude/providers.json"
     [[ -f "$config" ]] || return 0
-    local current=$(grep -o "\"current\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$config" | cut -d\" -f4)
+    local current=$(grep -o "\"default\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$config" | cut -d\" -f4)
     [[ -z "$current" ]] && return 0
     local url=$(grep -A2 "\"$current\"" "$config" | grep "url" | cut -d\" -f4)
     local key=$(grep -A3 "\"$current\"" "$config" | grep "key" | cut -d\" -f4)
@@ -84,7 +84,7 @@ fi
 
 # 初始化配置文件
 if [[ ! -f "$HOME/.claude/providers.json" ]]; then
-    echo '{"current": "", "providers": {}}' > "$HOME/.claude/providers.json"
+    echo '{"default": "", "providers": {}}' > "$HOME/.claude/providers.json"
 fi
 
 echo -e "\n${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
