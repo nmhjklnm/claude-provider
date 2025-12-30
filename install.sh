@@ -38,6 +38,11 @@ for mod in "${modules[@]}"; do
     curl -fsSL "$REPO_URL/cl.d/$mod" -o "$INSTALL_DIR/cl.d/$mod"
 done
 
+# Download VERSION file
+if curl -fsSL "$REPO_URL/VERSION" -o "$INSTALL_DIR/VERSION" 2>/dev/null; then
+    :
+fi
+
 # 配置 shell
 echo -e "${YELLOW}[4/4]${NC} 配置 shell..."
 

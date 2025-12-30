@@ -13,6 +13,23 @@ update_cl() {
     log_info "正在检查更新..."
     echo ""
 
+    # 获取本地和远程版本信息
+    local remote_version
+    local local_version
+    remote_version=$(curl -fsSL "$repo_url/VERSION" 2>/dev/null || echo "")
+    local_version=$(cat "${install_dir}/VERSION" 2>/dev/null || echo "")
+
+    if [[ -n "$remote_version" ]]; then
+        if [[ "$remote_version" == "$local_version" ]]; then
+            log_info "当前版本已是最新: $local_version"
+            return 0
+        else
+            log_info "发现新版本: $remote_version (当前 $local_version)，开始更新..."
+        fi
+    else
+        log_warn "无法获取远程版本信息，继续尝试更新"
+    fi
+
     # 备份当前版本
     local backup_dir="${install_dir}/.backup.$(date +%s)"
     mkdir -p "$backup_dir"
@@ -56,7 +73,12 @@ update_cl() {
     if [[ $failed -eq 0 ]]; then
         log_success "更新完成！"
         echo ""
-        log_info "当前版本已是最新"
+        # 更新 VERSION 文件
+        if curl -fsSL "$repo_url/VERSION" -o "${install_dir}/VERSION" 2>/dev/null; then
+            :
+        fi
+
+        log_info "已更新到: $(cat "${install_dir}/VERSION" 2>/dev/null || echo "unknown")"
 
         # 清理旧备份（保留最近 3 个）
         local backup_count=$(ls -d "${install_dir}/.backup."* 2>/dev/null | wc -l)

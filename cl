@@ -47,12 +47,17 @@ source "${CL_MODULES}/rename.sh"
 source "${CL_MODULES}/update.sh"
 source "${CL_MODULES}/init.sh"
 
+# 版本信息
+VERSION_FILE="${CL_ROOT}/VERSION"
+VERSION=$(cat "$VERSION_FILE" 2>/dev/null || echo "unknown")
+
 # -----------------------------------------------------------------------------
 # 命令路由
 # -----------------------------------------------------------------------------
 case "${1:-}" in
     # 无参数：显示当前供应商
     "")
+        log_info "cl 版本: $VERSION"
         show_current
         ;;
 
