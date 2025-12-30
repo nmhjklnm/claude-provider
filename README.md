@@ -1,4 +1,5 @@
 # cl - Claude API Provider Switcher
+Version: v0.1.2
 
 快速切换 Claude API 供应商配置的命令行工具。
 
