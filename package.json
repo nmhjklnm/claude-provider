@@ -1,0 +1,29 @@
+{
+  "name": "cctool",
+  "version": "0.1.2",
+  "description": "Claude API Provider Switcher",
+  "license": "MIT",
+  "bin": {
+    "cctool": "bin/cl.js"
+  },
+  "main": "src/index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node bin/cl.js --version",
+    "prepublishOnly": "npm test",
+    "pack:dry": "npm pack --dry-run"
+  },
+  "files": [
+    "bin",
+    "src",
+    "VERSION",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {}
+}
