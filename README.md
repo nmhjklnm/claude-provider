@@ -1,9 +1,9 @@
-# cl - Claude API Provider Switcher
+# cctool - Claude API Provider Switcher
 
-Version: v0.1.2
+Version: v0.1.4
 
 快速切换 Claude API 供应商配置的命令行工具。
-此工具最大的优势不是人来使用，而是为Coding Agent自己使用提供方便。你可以直接要求它"cl -h 然后把这个 xxx新供应商给我配上"
+此工具最大的优势不是人来使用，而是为Coding Agent自己使用提供方便。你可以直接要求它"cctool -h 然后把这个 xxx新供应商给我配上"
 
 ## 安装
 
