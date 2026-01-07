@@ -1,6 +1,6 @@
 {
-  "name": "cctool",
-  "version": "0.1.3",
+  "name": "@nmhjklnm/cctool",
+  "version": "0.1.4",
   "description": "Claude API Provider Switcher",
   "license": "MIT",
   "bin": {

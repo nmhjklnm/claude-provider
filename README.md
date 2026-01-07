@@ -8,7 +8,7 @@ Version: v0.1.2
 ## 安装
 
 ```bash
-npm i -g cctool
+npm i -g @nmhjklnm/cctool
 ```
 
 ## 使用
@@ -60,7 +60,7 @@ cctool ls         # 列出所有供应商
 ## 卸载
 
 ```bash
-npm rm -g cctool
+npm rm -g @nmhjklnm/cctool
 ```
 
 ## License
