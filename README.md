@@ -11,7 +11,9 @@ Version: v0.1.6
 npm i -g @nmhjklnm/cctool
 ```
 
-## 🎉 新功能：自动更新环境变量（无需重开终端）
+## 🎉 新功能
+
+### 自动更新环境变量（无需重开终端）
 
 安装 shell 集成后，切换供应商时会自动更新当前终端的环境变量：
 
@@ -29,6 +31,17 @@ cctool yunwu     # 环境变量立即生效，无需重开终端
 支持的 Shell：
 - ✅ zsh
 - ✅ bash
+
+### 自动创建配置文件
+
+首次使用 `cctool add` 添加供应商时，如果配置文件不存在，会自动创建 `~/.claude/providers.json`，无需手动创建目录和文件。
+
+```bash
+# 首次使用，自动创建配置文件
+cctool add yunyi https://yunyi.cfd/claude your-api-key
+# ℹ️ 创建新的配置文件...
+# ✓ 已添加供应商: yunyi
+```
 
 ## 使用
 
