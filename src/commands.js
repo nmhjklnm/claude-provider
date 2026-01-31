@@ -253,7 +253,7 @@ async function initTest() {
 
 function updateCmd() {
   logInfo("npm 包版本请使用 npm 进行更新:");
-  process.stdout.write("  npm i -g claude-provider@latest\n");
+  process.stdout.write("  npm i -g @nmhjklnm/cctool@latest\n");
 }
 
 function printEnv() {
@@ -268,6 +268,76 @@ function printEnv() {
   process.stdout.write(`export ANTHROPIC_AUTH_TOKEN=${JSON.stringify(key)}\n`);
 }
 
+function setupShell() {
+  const os = require("os");
+  const path = require("path");
+  const fs = require("fs");
+
+  const shell = process.env.SHELL || "";
+  const home = os.homedir();
+
+  let rcFile = "";
+  let funcName = "cctool";
+
+  if (shell.includes("zsh")) {
+    rcFile = path.join(home, ".zshrc");
+  } else if (shell.includes("bash")) {
+    rcFile = path.join(home, ".bashrc");
+  } else {
+    logError("不支持的 shell，目前仅支持 bash 和 zsh");
+    process.exit(1);
+  }
+
+  const shellFunction = `
+# cctool - 自动更新环境变量
+${funcName}() {
+  if [ "$1" = "setup" ]; then
+    command cctool setup
+    return
+  fi
+  
+  local output
+  output=$(command cctool "$@" 2>&1)
+  local exit_code=$?
+  
+  echo "$output"
+  
+  if [ $exit_code -eq 0 ] && [ -n "$1" ] && [ "$1" != "list" ] && [ "$1" != "ls" ] && [ "$1" != "help" ] && [ "$1" != "add" ] && [ "$1" != "rm" ] && [ "$1" != "rename" ] && [ "$1" != "mv" ] && [ "$1" != "init" ] && [ "$1" != "test" ] && [ "$1" != "update" ] && [ "$1" != "upgrade" ] && [ "$1" != "--version" ] && [ "$1" != "-v" ] && [ "$1" != "--help" ] && [ "$1" != "-h" ]; then
+    eval "$(command cctool --print-env 2>/dev/null)"
+  fi
+  
+  return $exit_code
+}
+`;
+
+  try {
+    let content = "";
+    if (fs.existsSync(rcFile)) {
+      content = fs.readFileSync(rcFile, "utf8");
+    }
+
+    // 检查是否已经存在该函数
+    if (content.includes(`${funcName}()`)) {
+      logWarn(`${funcName} 函数已存在于 ${rcFile}`);
+      process.stdout.write("\n如需重新安装，请手动删除旧的函数定义后再运行\n");
+      return;
+    }
+
+    // 添加函数到文件末尾
+    const newContent = content.trim() + "\n" + shellFunction;
+    fs.writeFileSync(rcFile, newContent, "utf8");
+
+    logSuccess(`已添加 ${funcName} 函数到 ${rcFile}`);
+    process.stdout.write("\n请运行以下命令使配置生效:\n");
+    process.stdout.write(`  ${colorize("cyan", `source ${rcFile}`)}\n\n`);
+    process.stdout.write("或者重新打开终端\n\n");
+    process.stdout.write(`现在切换供应商时，环境变量会自动更新！\n`);
+  } catch (e) {
+    logError(`设置失败: ${e.message}`);
+    process.exit(1);
+  }
+}
+
 function help() {
   process.stdout.write(
     [
@@ -280,6 +350,7 @@ function help() {
       "  cctool add <name> <url> <key>  添加供应商",
       "  cctool rm <name>            删除供应商",
       "  cctool rename <old> <new>   重命名供应商",
+      "  cctool setup                安装 shell 集成（自动更新环境变量）",
       "  cctool update               更新到最新版本",
       "  cctool init                 测试所有连接",
       "  cctool --version, -v        显示版本",
@@ -299,6 +370,7 @@ module.exports = {
   printEnv,
   removeProvider,
   renameProvider,
+  setupShell,
   showCurrent,
   switchProvider,
   updateCmd

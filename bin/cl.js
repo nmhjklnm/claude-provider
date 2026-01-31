@@ -11,6 +11,7 @@ const {
   printEnv,
   removeProvider,
   renameProvider,
+  setupShell,
   showCurrent,
   switchProvider,
   updateCmd
@@ -73,6 +74,11 @@ async function main(argv) {
       return;
     }
 
+    case "setup": {
+      setupShell();
+      return;
+    }
+
     case "update":
     case "upgrade": {
       updateCmd();
@@ -91,16 +97,7 @@ async function main(argv) {
     }
 
     default: {
-      // Compatibility + cross-platform env update:
-      // - Interactive: keep human-friendly output.
-      // - Non-interactive (e.g. eval): print exports only.
-      const isTTY = Boolean(process.stdout.isTTY);
-      if (isTTY) {
-        switchProvider(cmd);
-        return;
-      }
       switchProvider(cmd);
-      printEnv();
       return;
     }
   }
