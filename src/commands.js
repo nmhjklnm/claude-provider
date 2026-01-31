@@ -74,7 +74,20 @@ function addProvider(name, url, key) {
     process.exit(1);
   }
 
-  const cfg = requireConfig();
+  // 尝试读取配置，如果不存在则创建初始配置
+  let cfg;
+  try {
+    cfg = readConfig();
+  } catch (e) {
+    if (e && e.code === "CONFIG_NOT_FOUND") {
+      // 配置文件不存在，创建初始配置
+      cfg = { default: "", providers: {} };
+      logInfo("创建新的配置文件...");
+    } else {
+      throw e;
+    }
+  }
+
   if (providerExists(cfg, name)) {
     logError(`供应商 '${name}' 已存在`);
     process.stdout.write(`如需更新，请先删除: cctool rm ${name}\n`);
